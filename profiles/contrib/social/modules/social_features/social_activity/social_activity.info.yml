@@ -1,0 +1,37 @@
+name: 'Social Activity'
+description: 'Provides activity stream for Open Social.'
+type: module
+core: 8.x
+dependencies:
+  - activity_creator
+  - activity_logger
+  - activity_viewer
+  - block
+  - block_content
+  - comment
+  - crop
+  - dynamic_entity_reference
+  - field
+  - file
+  - flag
+  - group
+  - mentions
+  - menu_link_content
+  - message
+  - node
+  - options
+  - profile
+  - search_api
+  - social_comment
+  - social_event
+  - social_font
+  - social_group
+  - social_post
+  - social_topic
+  - system
+  - taxonomy
+  - text
+  - user
+  - views
+  - votingapi
+package: Social

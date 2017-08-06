@@ -1,0 +1,29 @@
+name: 'Social Group'
+description: 'Provides Group feature.'
+type: module
+core: 8.x
+dependencies:
+  - address
+  - block
+  - datetime
+  - field
+  - field_group
+  - file
+  - gnode
+  - group
+  - image
+  - image_widget_crop
+  - node
+  - path
+  - profile
+  - social_core
+  - social_event
+  - social_group
+  - social_profile
+  - social_topic
+  - system
+  - taxonomy
+  - text
+  - user
+  - views
+package: Social
