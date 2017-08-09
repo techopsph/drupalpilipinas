@@ -1,0 +1,120 @@
+name: Drupal Pilipinas Social theme
+description: Forked theme from Social Blue
+screenshot: screenshot.png
+type: theme
+
+base theme: socialbase
+
+core: 8.x
+version: '1.1'
+
+libraries:
+  - socialdrupalpilipinas/brand
+  - socialdrupalpilipinas/site-footer
+
+libraries-extend:
+  socialbase/base:
+    - socialdrupalpilipinas/base
+  socialbase/alert:
+    - socialdrupalpilipinas/alert
+  socialbase/badge:
+    - socialdrupalpilipinas/badge
+  socialbase/button:
+    - socialdrupalpilipinas/button
+  socialbase/cards:
+    - socialdrupalpilipinas/cards
+  socialbase/form-controls:
+    - socialdrupalpilipinas/form-controls
+  socialbase/list:
+    - socialdrupalpilipinas/list
+  socialbase/spinner:
+    - socialdrupalpilipinas/spinner
+  # Extend molecules
+  socialbase/breadcrumb:
+    - socialdrupalpilipinas/breadcrumb
+  socialbase/dropdown:
+    - socialdrupalpilipinas/dropdown
+  socialbase/file:
+      - socialdrupalpilipinas/file
+  socialbase/form-elements:
+    - socialdrupalpilipinas/form-elements
+  socialbase/form--input-groups:
+    - socialdrupalpilipinas/form--input-groups
+  socialbase/like:
+    - socialdrupalpilipinas/like
+  # attach the datepicker stylesheet to all date fields
+  core/drupal.date:
+    - socialdrupalpilipinas/form--datepicker
+  # extend the core datepicker with a stylesheet
+  core/jquery.ui.datepicker:
+    - socialdrupalpilipinas/form--timepicker
+  socialbase/form--password:
+    - socialdrupalpilipinas/form--password
+  socialbase/pagination:
+    - socialdrupalpilipinas/pagination
+  socialbase/popover:
+    - socialdrupalpilipinas/popover
+  socialbase/nav-book:
+    - socialdrupalpilipinas/nav-book
+  socialbase/nav-tabs:
+    - socialdrupalpilipinas/nav-tabs
+  socialbase/navbar:
+    - socialdrupalpilipinas/navbar
+  socialbase/teaser:
+    - socialdrupalpilipinas/teaser
+  socialbase/tour:
+    - socialdrupalpilipinas/tour
+  # Extend Organisms
+  socialbase/comment:
+    - socialdrupalpilipinas/comment
+  socialbase/hero:
+    - socialdrupalpilipinas/hero
+  socialbase/meta:
+    - socialdrupalpilipinas/meta
+  socialbase/offcanvas:
+    - socialdrupalpilipinas/offcanvas
+  socialbase/stream:
+    - socialdrupalpilipinas/stream
+  socialbase/page-node:
+    - socialdrupalpilipinas/page-node
+
+ckeditor_stylesheets:
+  - assets/css/ckeditor.css
+
+# This section is used by the contrib module, Component Libraries. It allows you
+# to reference .twig files in your components/ directory.
+component-libraries:
+  base:
+    paths:
+      - components/01-base
+  atoms:
+    paths:
+      - components/02-atoms
+  molecules:
+    paths:
+      - components/03-molecules
+  organisms:
+    paths:
+      - components/04-organisms
+  templates:
+    paths:
+      - components/05-templates
+  pages:
+    paths:
+      - components/06-pages
+
+regions:
+  hidden: Hidden
+  header: Header
+  breadcrumb: Breadcrumb
+  hero: Hero
+  secondary_navigation: Secondary navigation
+  content_top: Content top
+  title: Page title
+  content: Content
+  complementary_top: Complementary top
+  complementary_bottom: Complementary bottom
+  content_bottom: Content bottom
+  sidebar_first: Sidebar First
+  sidebar_second: Sidebar Second
+  footer: Footer
