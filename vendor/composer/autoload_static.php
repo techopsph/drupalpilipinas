@@ -65,6 +65,7 @@ class ComposerStaticInit20d48de6ed030d96568b7a7e1c1aa1ea
             'Symfony\\Component\\ClassLoader\\' => 30,
             'Symfony\\Cmf\\Component\\Routing\\' => 30,
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
+            'SendGrid\\' => 9,
         ),
         'P' => 
         array (
@@ -234,6 +235,10 @@ class ComposerStaticInit20d48de6ed030d96568b7a7e1c1aa1ea
         array (
             0 => __DIR__ . '/..' . '/symfony/psr-http-message-bridge',
         ),
+        'SendGrid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fastglass/sendgrid/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -387,6 +392,10 @@ class ComposerStaticInit20d48de6ed030d96568b7a7e1c1aa1ea
             'Stack' => 
             array (
                 0 => __DIR__ . '/..' . '/stack/builder/src',
+            ),
+            'Smtpapi' => 
+            array (
+                0 => __DIR__ . '/..' . '/sendgrid/smtpapi/lib',
             ),
         ),
         'G' => 
