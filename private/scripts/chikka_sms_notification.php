@@ -2,13 +2,13 @@
 // Default values for parameters
 $defaults = array(
   'chikka_url' => 'https://post.chikka.com/smsapi/request',
-  'mobile_number' => '639175579109',
+  'mobile_numbers' => '639175579109|639177347118',
 );
 
 // Load our hidden credentials.
 // See the README.md for instructions on storing secrets.
 $secrets = _get_secrets(array('chikka_client_id', 'chikka_client_secret', 'chikka_accesscode'), $defaults);
-$number = $secrets['mobile_number'];
+$numbers = $secrets['mobile_numbers'];
 
 $workflow_description = ucfirst($_POST['stage']) . ' ' . str_replace('_', ' ', $_POST['wf_type']);
 
@@ -42,7 +42,7 @@ switch($_POST['wf_type']) {
 
 
   $message = $text;
-  if ( sendSMS($number, $message, $secrets['chikka_accesscode'], $secrets['chikka_client_id'], $secrets['chikka_client_secret'], $secrets['chikka_url'] ) == TRUE) {
+  if ( sendSMS($numbers, $message, $secrets['chikka_accesscode'], $secrets['chikka_client_id'], $secrets['chikka_client_secret'], $secrets['chikka_url'] ) == TRUE) {
     echo "Successfully sent SMS to $number";
   } else {
     echo "ERROR";
@@ -74,23 +74,26 @@ function _get_secrets($requiredKeys, $defaults)
 }
 
 // Send / Broadcast SMS
-function sendSMS($mobile_number, $message, $chikka_accesscode, $chikka_client_id, $chikka_client_secret, $chikka_url)
+function sendSMS($mobile_numbers, $message, $chikka_accesscode, $chikka_client_id, $chikka_client_secret, $chikka_url)
 {
-  $post = array( "message_type" => "SEND",
-	  "mobile_number" => $mobile_number,
-		"shortcode" 	  => $chikka_accesscode,
-		"message_id"	  => date('YmdHis'),
-		"message"       => urlencode($message),
-		"client_id" 	  => $chikka_client_id,
-		"secret_key" 	  => $chikka_client_secret);
+  $mobile_numbers_arr = explode("|", $mobile_numbers);
+  for($x=0; $x<=count($mobile_numbers_arr); $x++) {
+    $post = array( "message_type" => "SEND",
+      "mobile_number" => $mobile_numbers_arr[$x],
+      "shortcode" 	  => $chikka_accesscode,
+      "message_id"	  => date('YmdHis'),
+      "message"       => urlencode($message),
+      "client_id" 	  => $chikka_client_id,
+      "secret_key" 	  => $chikka_client_secret);
 
-  $result = curl_request($chikka_url, $post);
-  $result = json_decode($result, true);
-  if ($result['status'] == '200') {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+    $result = curl_request($chikka_url, $post);
+    $result = json_decode($result, true);
+    if ($result['status'] == '200') {
+      return TRUE;
+    } else {
+      return FALSE;
+    }
+  } 
 }
 
 // Reply SMS
