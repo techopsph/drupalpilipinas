@@ -17,3 +17,7 @@ workflows:
         - type: webphp
           description: send sms when clearing cache.
           script: private/scripts/chikka_sms_notification.php
+          
+protected_web_paths:
+  - /README.md
+  - /web.config
