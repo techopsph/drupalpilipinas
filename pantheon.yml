@@ -19,5 +19,7 @@ workflows:
           script: private/scripts/chikka_sms_notification.php
           
 protected_web_paths:
+  - /README.md
+  - /web.config
   - /code/README.md
   - /code/web.config
