@@ -21,3 +21,5 @@ workflows:
 protected_web_paths:
   - /README.md
   - /web.config
+  - /code/README.md
+  - /code/web.config
