@@ -23,3 +23,5 @@ protected_web_paths:
   - /web.config
   - /code/README.md
   - /code/web.config
+  - /code/sites/README.txt
+  - /sites/README.txt
