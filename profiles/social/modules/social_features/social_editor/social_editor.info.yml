@@ -1,0 +1,15 @@
+name: 'Social Editor'
+description: 'Provides site editor components.'
+type: module
+# core: 8.x
+dependencies:
+  - drupal:ckeditor
+  - drupal:editor
+  - drupal:filter
+package: Social
+
+# Information added by Drupal.org packaging script on 2018-03-28
+version: '8.x-1.12'
+core: '8.x'
+project: 'social'
+datestamp: 1522268472

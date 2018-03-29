@@ -1,0 +1,16 @@
+name: 'Social Comment'
+description: 'Provides deafult comment type and related configuration'
+type: module
+# core: 8.x
+dependencies:
+  - drupal:comment
+  - drupal:field
+  - drupal:system
+  - drupal:text
+package: Social
+
+# Information added by Drupal.org packaging script on 2018-03-28
+version: '8.x-1.12'
+core: '8.x'
+project: 'social'
+datestamp: 1522268472

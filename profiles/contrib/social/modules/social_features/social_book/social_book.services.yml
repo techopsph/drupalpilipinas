@@ -1,5 +1,0 @@
-services:
-  social_book.overrider:
-    class: \Drupal\social_book\SocialBookConfigOverride
-    tags:
-      - {name: config.factory.override, priority: 5}

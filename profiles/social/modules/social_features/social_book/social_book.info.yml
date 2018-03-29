@@ -1,0 +1,28 @@
+name: 'Social Book'
+description: 'Provides book feature.'
+type: module
+# core: 8.x
+dependencies:
+  - drupal:block
+  - drupal:book
+  - drupal:comment
+  - entity_access_by_field:entity_access_by_field
+  - drupal:field
+  - field_group:field_group
+  - drupal:file
+  - group_core_comments:group_core_comments
+  - drupal:image
+  - drupal:node
+  - drupal:options
+  - drupal:path
+  - social_core:social_core
+  - social_event:social_event
+  - drupal:text
+  - drupal:user
+package: Social
+
+# Information added by Drupal.org packaging script on 2018-03-28
+version: '8.x-1.12'
+core: '8.x'
+project: 'social'
+datestamp: 1522268472

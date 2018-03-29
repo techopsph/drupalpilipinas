@@ -1,0 +1,15 @@
+name: 'Social Profile Privacy'
+description: 'Provides ability to set visibility of profile fields'
+type: module
+# core: 8.x
+package: Social (experimental)
+configure: social_profile.settings
+dependencies:
+  - social_profile:social_profile
+  - drupal:user
+
+# Information added by Drupal.org packaging script on 2018-03-28
+version: '8.x-1.12'
+core: '8.x'
+project: 'social'
+datestamp: 1522268472

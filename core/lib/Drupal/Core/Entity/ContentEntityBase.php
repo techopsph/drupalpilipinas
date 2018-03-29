@@ -322,7 +322,7 @@ abstract class ContentEntityBase extends Entity implements \IteratorAggregate, C
    * {@inheritdoc}
    */
   public function isRevisionTranslationAffected() {
-    $field_name = 'revision_translation_affected';
+    $field_name = $this->getEntityType()->getKey('revision_translation_affected');
     return $this->hasField($field_name) ? $this->get($field_name)->value : TRUE;
   }
 
@@ -330,7 +330,7 @@ abstract class ContentEntityBase extends Entity implements \IteratorAggregate, C
    * {@inheritdoc}
    */
   public function setRevisionTranslationAffected($affected) {
-    $field_name = 'revision_translation_affected';
+    $field_name = $this->getEntityType()->getKey('revision_translation_affected');
     if ($this->hasField($field_name)) {
       $this->set($field_name, $affected);
     }
@@ -541,6 +541,51 @@ abstract class ContentEntityBase extends Entity implements \IteratorAggregate, C
   }
 
   /**
+   * Gets the value of a specific property of a field.
+   *
+   * Only the first delta can be accessed with this method.
+   *
+   * @param string $field_name
+   *   The name of the field.
+   * @param string $property
+   *   The field property, "value" for many field types.
+   *
+   * @return mixed
+   */
+  public function getFieldValue($field_name, $property) {
+    // Attempt to get the value from the values directly if the field is not
+    // initialized yet.
+    if (!isset($this->fields[$field_name])) {
+      $field_values = NULL;
+      if (isset($this->values[$field_name][$this->activeLangcode])) {
+        $field_values = $this->values[$field_name][$this->activeLangcode];
+      }
+      elseif ($this->values[$field_name][LanguageInterface::LANGCODE_DEFAULT]) {
+        $field_values = $this->values[$field_name][LanguageInterface::LANGCODE_DEFAULT];
+      }
+
+      if ($field_values !== NULL) {
+        // If there are field values, try to get the property value.
+        // Configurable/Multi-value fields are stored differently, try accessing
+        // with delta and property first, then without delta and last, if the
+        // value is a scalar, just return that.
+        if (isset($field_values[0][$property]) && is_array($field_values[0])) {
+          return $field_values[0][$property];
+        }
+        elseif (isset($field_values[$property]) && is_array($field_values)) {
+          return $field_values[$property];
+        }
+        elseif (!is_array($field_values)) {
+          return $field_values;
+        }
+      }
+    }
+
+    // Fall back to access the property through the field object.
+    return $this->get($field_name)->$property;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function set($name, $value, $notify = TRUE) {
@@ -712,6 +757,12 @@ abstract class ContentEntityBase extends Entity implements \IteratorAggregate, C
         }
         elseif (isset($this->translatableEntityKeys[$key][$this->activeLangcode])) {
           unset($this->translatableEntityKeys[$key][$this->activeLangcode]);
+        }
+        // If the revision identifier field is being populated with the original
+        // value, we need to make sure the "new revision" flag is reset
+        // accordingly.
+        if ($key === 'revision' && $this->getRevisionId() == $this->getLoadedRevisionId()) {
+          $this->newRevision = FALSE;
         }
       }
     }
@@ -916,7 +967,9 @@ abstract class ContentEntityBase extends Entity implements \IteratorAggregate, C
    * {@inheritdoc}
    */
   public function getTranslationLanguages($include_default = TRUE) {
-    $translations = array_filter($this->translations, function($translation) { return $translation['status']; });
+    $translations = array_filter($this->translations, function ($translation) {
+      return $translation['status'];
+    });
     unset($translations[LanguageInterface::LANGCODE_DEFAULT]);
 
     if ($include_default) {
@@ -1285,20 +1338,15 @@ abstract class ContentEntityBase extends Entity implements \IteratorAggregate, C
    *   An array of field names.
    */
   protected function getFieldsToSkipFromTranslationChangesCheck() {
+    /** @var \Drupal\Core\Entity\ContentEntityTypeInterface $entity_type */
+    $entity_type = $this->getEntityType();
     // A list of known revision metadata fields which should be skipped from
     // the comparision.
-    // @todo Replace the hard coded list of revision metadata fields with the
-    // solution from https://www.drupal.org/node/2615016.
     $fields = [
-      $this->getEntityType()->getKey('revision'),
+      $entity_type->getKey('revision'),
       'revision_translation_affected',
-      'revision_uid',
-      'revision_user',
-      'revision_timestamp',
-      'revision_created',
-      'revision_log',
-      'revision_log_message',
     ];
+    $fields = array_merge($fields, array_values($entity_type->getRevisionMetadataKeys()));
 
     return $fields;
   }

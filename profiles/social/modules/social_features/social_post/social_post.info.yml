@@ -1,0 +1,23 @@
+name: 'Social Post'
+description: 'Provides Post functionality for Open Social.'
+type: module
+# core: 8.x
+dependencies:
+  - drupal:block
+  - drupal:comment
+  - dropdown:dropdown
+  - drupal:field
+  - group:group
+  - drupal:options
+  - social_comment:social_comment
+  - drupal:system
+  - drupal:text
+  - drupal:user
+  - drupal:views
+package: Social
+
+# Information added by Drupal.org packaging script on 2018-03-28
+version: '8.x-1.12'
+core: '8.x'
+project: 'social'
+datestamp: 1522268472
