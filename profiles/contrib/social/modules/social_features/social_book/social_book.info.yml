@@ -1,7 +1,7 @@
 name: 'Social Book'
 description: 'Provides book feature.'
 type: module
-# core: 8.x
+core: 8.x
 dependencies:
   - drupal:block
   - drupal:book
@@ -20,9 +20,3 @@ dependencies:
   - drupal:text
   - drupal:user
 package: Social
-
-# Information added by Drupal.org packaging script on 2018-03-28
-version: '8.x-1.12'
-core: '8.x'
-project: 'social'
-datestamp: 1522268472

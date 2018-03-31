@@ -1,7 +1,7 @@
 name: 'Social Landing Page'
 type: module
 description: 'Provides landing page content type for dynamic content, such as a home page.'
-# core: 8.x
+core: 8.x
 dependencies:
   - activity_creator:activity_creator
   - activity_creator:activity_viewer
@@ -32,9 +32,3 @@ dependencies:
   - drupal:user
   - drupal:views
 package: Social
-
-# Information added by Drupal.org packaging script on 2018-03-28
-version: '8.x-1.12'
-core: '8.x'
-project: 'social'
-datestamp: 1522268472

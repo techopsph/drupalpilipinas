@@ -120,6 +120,16 @@ class SendGridMail implements MailInterface, ContainerFactoryPluginInterface {
     $sendgrid_config = $this->configFactory->get('sendgrid_integration.settings');
 
     $key_secret = $sendgrid_config->get('apikey');
+    if ($this->moduleHandler->moduleExists('key')) {
+      $key = \Drupal::service('key.repository')->getKey($key_secret);
+      if ($key) {
+        $key_value = $key->getKeyValue();
+        if ($key_value) {
+          $key_secret = $key_value;
+        }
+      }
+    }
+
     if (empty($key_secret)) {
       // Set a error in the logs if there is no API key.
       $this->logger->error('No API Secret key has been set');
@@ -418,6 +428,16 @@ class SendGridMail implements MailInterface, ContainerFactoryPluginInterface {
     // If we have attachments, add them.
     if (!empty($attachments)) {
       $sendgrid_message->setAttachments($attachments);
+    }
+
+    // Add template ID.
+    if (isset($message['sendgrid']['template_id'])) {
+      $sendgrid_message->setTemplateId($message['sendgrid']['template_id']);
+    }
+
+    // Add substitutions.
+    if (isset($message['sendgrid']['substitutions'])) {
+      $sendgrid_message->setSubstitutions($message['sendgrid']['substitutions']);
     }
 
     // Lets try and send the message and catch the error.

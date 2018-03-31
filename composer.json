@@ -7,14 +7,14 @@
     "prefer-stable": true,
     "config": {
         "platform": {
-            "php": "7.0"
+            "php": "7.2"
         }
     },
     "require": {
         "composer/installers": "^1.0",
         "drupal-composer/drupal-scaffold": "^2.0.0",
         "cweagans/composer-patches": "^1.0",
-        "goalgorilla/open_social": "^1.9",
+        "goalgorilla/open_social": "^1.0",
         "doctrine/cache": "1.6.1",
         "doctrine/collections": "1.4.0",
         "doctrine/common": "2.7.2",
@@ -55,9 +55,6 @@
             "profiles/contrib/social": [
                 "goalgorilla/open_social"
             ],
-            "profiles/social": [
-                "goalgorilla/open_social"
-            ],
             "profiles/contrib/{$name}": [
                 "type:drupal-profile"
             ],
@@ -68,9 +65,6 @@
                 "type:drupal-library",
                 "type:bower-asset",
                 "type:npm-asset"
-            ],
-            "drush/contrib/{$name}": [
-                "type:drupal-drush"
             ]
         },
         "enable-patching": true

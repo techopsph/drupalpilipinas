@@ -59,7 +59,7 @@ class Google_Service_ServiceManagement extends Google_Service
   public function __construct(Google_Client $client)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://servicemanagement.googleapis.com/';
+    $this->rootUrl = 'https://content-servicemanagement.googleapis.com/';
     $this->servicePath = '';
     $this->version = 'v1';
     $this->serviceName = 'servicemanagement';
@@ -84,11 +84,7 @@ class Google_Service_ServiceManagement extends Google_Service
               'path' => 'v1/operations',
               'httpMethod' => 'GET',
               'parameters' => array(
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'filter' => array(
+                'name' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -96,7 +92,11 @@ class Google_Service_ServiceManagement extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'name' => array(
+                'pageSize' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -168,11 +168,11 @@ class Google_Service_ServiceManagement extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'view' => array(
+                'configId' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'configId' => array(
+                'view' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -191,6 +191,10 @@ class Google_Service_ServiceManagement extends Google_Service
               'path' => 'v1/services',
               'httpMethod' => 'GET',
               'parameters' => array(
+                'producerProjectId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'consumerId' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -202,10 +206,6 @@ class Google_Service_ServiceManagement extends Google_Service
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
-                ),
-                'producerProjectId' => array(
-                  'location' => 'query',
-                  'type' => 'string',
                 ),
               ),
             ),'setIamPolicy' => array(

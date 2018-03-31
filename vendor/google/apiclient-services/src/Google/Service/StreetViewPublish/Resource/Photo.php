@@ -29,12 +29,18 @@ class Google_Service_StreetViewPublish_Resource_Photo extends Google_Service_Res
    * After the client finishes uploading the photo with the returned UploadRef,
    * CreatePhoto publishes the uploaded Photo to Street View on Google Maps.
    *
+   * Currently, the only way to set heading, pitch, and roll in CreatePhoto is
+   * through the [Photo Sphere XMP
+   * metadata](https://developers.google.com/streetview/spherical-metadata) in the
+   * photo bytes. The `pose.heading`, `pose.pitch`, `pose.roll`, `pose.altitude`,
+   * and `pose.level` fields in Pose are ignored for CreatePhoto.
+   *
    * This method returns the following error codes:
    *
-   * * google.rpc.Code.INVALID_ARGUMENT if the request is malformed. *
-   * google.rpc.Code.NOT_FOUND if the upload reference does not exist. *
-   * google.rpc.Code.RESOURCE_EXHAUSTED if the account has reached the storage
-   * limit. (photo.create)
+   * * google.rpc.Code.INVALID_ARGUMENT if the request is malformed or if the
+   * uploaded photo is not a 360 photo. * google.rpc.Code.NOT_FOUND if the upload
+   * reference does not exist. * google.rpc.Code.RESOURCE_EXHAUSTED if the account
+   * has reached the storage limit. (photo.create)
    *
    * @param Google_Service_StreetViewPublish_Photo $postBody
    * @param array $optParams Optional parameters.
@@ -72,7 +78,8 @@ class Google_Service_StreetViewPublish_Resource_Photo extends Google_Service_Res
    *
    * * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the
    * requested Photo. * google.rpc.Code.NOT_FOUND if the requested Photo does not
-   * exist. (photo.get)
+   * exist. * google.rpc.Code.UNAVAILABLE if the requested Photo is still being
+   * indexed. (photo.get)
    *
    * @param string $photoId Required. ID of the Photo.
    * @param array $optParams Optional parameters.
@@ -129,6 +136,7 @@ class Google_Service_StreetViewPublish_Resource_Photo extends Google_Service_Res
    * * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the
    * requested photo. * google.rpc.Code.INVALID_ARGUMENT if the request is
    * malformed. * google.rpc.Code.NOT_FOUND if the requested photo does not exist.
+   * * google.rpc.Code.UNAVAILABLE if the requested Photo is still being indexed.
    * (photo.update)
    *
    * @param string $id Required. A unique identifier for a photo.

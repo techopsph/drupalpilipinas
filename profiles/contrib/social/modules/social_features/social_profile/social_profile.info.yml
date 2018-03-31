@@ -1,7 +1,7 @@
 name: 'Social Profile'
 description: 'Provides user profiles.'
 type: module
-# core: 8.x
+core: 8.x
 configure: social_profile.settings
 dependencies:
   - address:address
@@ -20,9 +20,3 @@ dependencies:
   - drupal:user
   - drupal:views
 package: Social
-
-# Information added by Drupal.org packaging script on 2018-03-28
-version: '8.x-1.12'
-core: '8.x'
-project: 'social'
-datestamp: 1522268472

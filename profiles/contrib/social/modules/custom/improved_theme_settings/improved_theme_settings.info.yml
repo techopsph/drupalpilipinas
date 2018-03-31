@@ -1,11 +1,5 @@
 name: Improved Theme Settings
 type: module
 description: Makes the theme pages a bit UI friendly for people with the permissions.
-# core: 8.x
+core: 8.x
 package: Custom
-
-# Information added by Drupal.org packaging script on 2018-03-28
-version: '8.x-1.12'
-core: '8.x'
-project: 'social'
-datestamp: 1522268472

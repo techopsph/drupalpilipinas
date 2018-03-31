@@ -1,15 +1,9 @@
 name: Social Admin Menu
 type: module
 description: Social Admin Menu enhancements.
-# core: 8.x
+core: 8.x
 package: Social
 dependencies:
   - drupal:toolbar
   - admin_toolbar:admin_toolbar
   - admin_toolbar_tools:admin_toolbar_tools
-
-# Information added by Drupal.org packaging script on 2018-03-28
-version: '8.x-1.12'
-core: '8.x'
-project: 'social'
-datestamp: 1522268472

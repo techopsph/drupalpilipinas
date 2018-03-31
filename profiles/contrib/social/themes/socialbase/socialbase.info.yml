@@ -28,7 +28,7 @@ base theme: bootstrap
 
 
 # The supported Drupal version.
-# core: 8.x
+core: 8.x
 
 # Libraries-extend is used to attach libraries to other libraries. If the
 # original library is conditionally included, the library it is extended with
@@ -184,9 +184,3 @@ regions:
 # The Hidden region should be visible when you enable a sub theme due to core bug.
 regions_hidden:
   - hidden
-
-# Information added by Drupal.org packaging script on 2018-03-28
-version: '8.x-1.12'
-core: '8.x'
-project: 'social'
-datestamp: 1522268472

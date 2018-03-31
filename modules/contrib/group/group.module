@@ -8,6 +8,8 @@
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -169,8 +171,11 @@ function group_rebuild() {
  * Implements hook_modules_installed().
  */
 function group_modules_installed($modules) {
-  _group_content_enabler_manager()->installEnforced();
-  _group_role_synchronizer()->createGroupRoles();
+  // Only create config objects while config import is not in progress.
+  if (!\Drupal::isConfigSyncing()) {
+    _group_content_enabler_manager()->installEnforced();
+    _group_role_synchronizer()->createGroupRoles();
+  }
 }
 
 /**
@@ -188,6 +193,60 @@ function group_form_block_form_alter(&$form, FormStateInterface $form_state, $fo
     $form['visibility']['group_type']['negate']['#title_display'] = 'invisible';
     $form['visibility']['group_type']['negate']['#value'] = $form['visibility']['group_type']['negate']['#default_value'];
   }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ *
+ * Creates computed fields to get the groups related to a entity. There will be
+ * a field containing all groups. Each group type will also get a separate
+ * field.
+ *
+ * We currently only use this for nodes and users since they can be installed
+ * as group content.
+ */
+function group_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+
+  $entity_types = ['node', 'user'];
+  if (in_array($entity_type->id(), $entity_types)) {
+    $fields['groups'] = BaseFieldDefinition::create('entity_reference')
+      ->setName('groups')
+      ->setTargetEntityTypeId($entity_type->id())
+      ->setSetting('target_type', 'group')
+      ->setLabel(t('Get the related groups for this entity.'))
+      ->setDescription(t('A list of all the groups referencing this entity.'))
+      ->setTranslatable(FALSE)
+      ->setComputed(TRUE)
+      ->setClass('\Drupal\group\Fields\GroupGroupReferenceItemList')
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'weight' => -5,
+      ]);
+
+    foreach (\Drupal::service('entity_type.manager')->getStorage('group_type')->loadMultiple() as $group_type) {
+      /** @var \Drupal\group\Entity\GroupType $group_type */
+      $field_name = 'groups_type_' . $group_type->id();
+      $fields[$field_name] = BaseFieldDefinition::create('entity_reference')
+        ->setName($field_name)
+        ->setTargetEntityTypeId($entity_type->id())
+        ->setSetting('target_type', 'group')
+        ->setSetting('handler_settings', ['target_bundles' => [$group_type->id() => $group_type->id()]])
+        ->setLabel(t('Get the related @type groups for this entity.', ['@type' => $group_type->label()]))
+        ->setDescription(t('A list of all the groups referencing this entity.'))
+        ->setTranslatable(FALSE)
+        ->setComputed(TRUE)
+        ->setClass('\Drupal\group\Fields\GroupGroupReferenceItemList')
+        ->setDisplayConfigurable('view', TRUE)
+        ->setDisplayOptions('view', [
+          'label' => 'above',
+          'weight' => -5,
+        ]);
+    }
+  }
+
+  return $fields;
 }
 
 /**
@@ -319,6 +378,23 @@ function _group_mass_reassign_to_super_user(array $ids, &$context) {
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function group_user_update(AccountInterface $account) {
+  // If a user's roles change, we need to reset their group roles cache.
+  $new = array_unique($account->getRoles());
+  $old = array_unique($account->original->getRoles());
+  sort($new);
+  sort($old);
+
+  if ($new != $old) {
+    /** @var \Drupal\group\Entity\Storage\GroupRoleStorageInterface $storage */
+    $storage = \Drupal::entityTypeManager()->getStorage('group_role');
+    $storage->resetUserGroupRoleCache($account);
+  }
+}
+
+/**
  * Implements hook_ENTITY_TYPE_delete().
  */
 function group_user_delete(EntityInterface $account) {
@@ -333,7 +409,10 @@ function group_user_delete(EntityInterface $account) {
  * Implements hook_ENTITY_TYPE_insert().
  */
 function group_user_role_insert(RoleInterface $role) {
-  _group_role_synchronizer()->createGroupRoles(NULL, [$role->id()]);
+  // Only create config objects while config import is not in progress.
+  if (!\Drupal::isConfigSyncing()) {
+    _group_role_synchronizer()->createGroupRoles(NULL, [$role->id()]);
+  }
 }
 
 /**

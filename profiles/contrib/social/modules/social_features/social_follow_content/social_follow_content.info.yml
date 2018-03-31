@@ -1,7 +1,7 @@
 name: 'Social Follow Content'
 description: 'Provides "Follow Content" flag type and related functionality.'
 type: module
-# core: 8.x
+core: 8.x
 dependencies:
   - activity_logger:activity_logger
   - drupal:block
@@ -19,9 +19,3 @@ dependencies:
   - social_page:social_page
   - social_topic:social_topic
 package: Social
-
-# Information added by Drupal.org packaging script on 2018-03-28
-version: '8.x-1.12'
-core: '8.x'
-project: 'social'
-datestamp: 1522268472
