@@ -1,6 +1,6 @@
-# Example Drops 8 Composer for Open Social
+# Drupal Pilipinas 
 
-Based on https://github.com/pantheon-systems/example-drops-8-composer 
+https://drupalpilipinas.org.ph
 
 
 
